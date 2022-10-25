@@ -1,43 +1,53 @@
 #include "Lista.hpp"
 
-Lista::Lista()
+template <typename T>
+Lista<T>::Lista()
 {
     tamanho = 0;
-    lista = new Bomba[0];
+    lista = new T[0];
 }
 
-Lista::Lista(Bomba* lista, int tamanho)
+template <typename T>
+Lista<T>::Lista(T* lista, int tamanho)
 {
     this->tamanho = tamanho;
-    this->lista = new Bomba[tamanho];
+    this->lista = new T[tamanho];
     for (int i = 0; i < tamanho; i++)
     {
         this->lista[i] = lista[i];
     }
 }
 
-Lista::~Lista()
+template <typename T>
+Lista<T>::~Lista()
 {
     delete[] lista;
 }
 
-void Lista::adicionar(Bomba bomba)
+template <typename T>
+int Lista<T>::getTamanho() {
+    return tamanho;
+}
+
+template <typename T>
+void Lista<T>::adicionar(T objeto)
 {
     tamanho++;
-    Bomba* novaLista = new Bomba[tamanho];
+    T* novaLista = new T[tamanho];
     for (int i = 0; i < tamanho - 1; i++)
     {
         novaLista[i] = lista[i];
     }
-    novaLista[tamanho - 1] = bomba;
+    novaLista[tamanho - 1] = objeto;
     delete[] lista;
     lista = novaLista;
 }
 
-void Lista::remover(int indice)
+template <typename T>
+void Lista<T>::remover(int indice)
 {
     tamanho--;
-    Bomba* novaLista = new Bomba[tamanho];
+    T* novaLista = new T[tamanho];
     for (int i = 0; i < indice; i++)
     {
         novaLista[i] = lista[i];
@@ -50,15 +60,16 @@ void Lista::remover(int indice)
     lista = novaLista;
 }
 
-void Lista::inserir(int indice, Bomba bomba)
+template <typename T>
+void Lista<T>::inserir(int indice, T objeto)
 {
     tamanho++;
-    Bomba* novaLista = new Bomba[tamanho];
+    T* novaLista = new T[tamanho];
     for (int i = 0; i < indice; i++)
     {
         novaLista[i] = lista[i];
     }
-    novaLista[indice] = bomba;
+    novaLista[indice] = objeto;
     for (int i = indice + 1; i < tamanho; i++)
     {
         novaLista[i] = lista[i - 1];
@@ -67,54 +78,62 @@ void Lista::inserir(int indice, Bomba bomba)
     lista = novaLista;
 }
 
-void Lista::limpar()
+template <typename T>
+void Lista<T>::limpar()
 {
     tamanho = 0;
     delete[] lista;
-    lista = new Bomba[0];
+    lista = new T[0];
 }
 
-bool Lista::contem(Bomba bomba)
+template <typename T>
+bool Lista<T>::contem(T objeto)
 {
     for (int i = 0; i < tamanho; i++)
     {
-        if (lista[i] == bomba) return true;
+        if (lista[i] == objeto) return true;
     }
     return false;
 }
 
-bool Lista::naoContem(Bomba bomba)
+template <typename T>
+bool Lista<T>::naoContem(T objeto)
 {
     for (int i = 0; i < tamanho; i++)
     {
-        if (lista[i] == bomba) return false;
+        if (lista[i] == objeto) return false;
     }
     return true;
 }
 
-bool Lista::estaVazia()
+template <typename T>
+bool Lista<T>::estaVazia()
 {
     return tamanho == 0;
 }
 
-bool Lista::naoEstaVazia()
+template <typename T>
+bool Lista<T>::naoEstaVazia()
 {
     return tamanho != 0;
 }
 
-Bomba* Lista::operator [](int indice)
+template <typename T>
+T* Lista<T>::operator [](int indice)
 {
     return &lista[indice];
 }
 
-Bomba* const Lista::operator [](int indice) const
+template <typename T>
+T* const Lista<T>::operator [](int indice) const
 {
     return &lista[indice];
 }
 
-Lista Lista::operator +(Lista lista)
+template <typename T>
+Lista<T> Lista<T>::operator +(Lista<T> lista)
 {
-    Lista novaLista;
+    Lista<T> novaLista;
     for (int i = 0; i < tamanho; i++)
     {
         novaLista.adicionar(this->lista[i]);
@@ -126,7 +145,8 @@ Lista Lista::operator +(Lista lista)
     return novaLista;
 }
 
-bool Lista::operator ==(Lista lista)
+template <typename T>
+bool Lista<T>::operator ==(Lista<T> lista)
 {
     if (tamanho != lista.tamanho) return false;
     for (int i = 0; i < tamanho; i++)
@@ -136,7 +156,32 @@ bool Lista::operator ==(Lista lista)
     return true;
 }
 
-bool Lista::operator !=(Lista lista)
+template <typename T>
+template <typename U>
+bool Lista<T>::operator ==(Lista<U> lista)
+{
+    if (tamanho != lista.tamanho) return false;
+    for (int i = 0; i < tamanho; i++)
+    {
+        if (this->lista[i] != lista.lista[i]) return false;
+    }
+    return true;
+}
+
+template <typename T>
+template <typename U>
+bool Lista<T>::operator !=(Lista<U> lista)
+{
+    if (tamanho != lista.tamanho) return true;
+    for (int i = 0; i < tamanho; i++)
+    {
+        if (this->lista[i] != lista.lista[i]) return true;
+    }
+    return false;
+}
+
+template <typename T>
+bool Lista<T>::operator !=(Lista<T> lista)
 {
     if (tamanho != lista.tamanho) return true;
     for (int i = 0; i < tamanho; i++)

@@ -1,6 +1,7 @@
 #include "Offset.hpp"
+#include "Tamanho.hpp"
+#include "Lista.cpp"
 #include <cstdlib>
-#include <time.h>
 
 Offset::Offset()
 {
@@ -14,19 +15,6 @@ Offset::Offset(int x, int y)
     this->y = y;
 }
 
-Offset::Offset(bool aleatorio)
-{
-    if (aleatorio)
-    {
-        srand(time(NULL));
-        x = rand() % 10;
-        y = rand() % 10;
-    } else {
-        x = 0;
-        y = 0;
-    }
-}
-
 int Offset::getX()
 {
     return x;
@@ -37,12 +25,25 @@ int Offset::getY()
     return y;
 }
 
-bool Offset::estaDentro(Offset offset, Offset referencia)
-{
-    bool xValido = entre(x, referencia.getX(), referencia.getX() + offset.getX());
-    if (!xValido) return false;
-    bool yValido = entre(y, referencia.getY(), referencia.getY() + offset.getY());
-    return xValido && yValido;
+bool Offset::estaDentro(Tamanho tamanho) {
+    tamanho.contem(Offset(x, y));
+}
+
+int Offset::distancia(Offset offset) {
+    int dx = x - offset.getX();
+    int dy = y - offset.getY();
+    return (abs(dx) > abs(dy)) ? dx : dy;
+}
+
+Lista<Offset> Offset::envolta(int raio) {
+    Lista<Offset> lista;
+    for (int x = getX() - raio; x <= getX() + raio; x++) {
+        for (int y = getY() - raio; y <= getY() + raio; y++) {
+            Offset offset = Offset(x, y);
+            if (offset != Offset(x, y)) lista.adicionar(offset);
+        }
+    }
+    return lista;
 }
 
 bool Offset::operator >(Offset offset)
@@ -75,12 +76,7 @@ bool Offset::operator !=(Offset offset)
     return (x != offset.x) || (y != offset.y);
 }
 
-bool Offset::entre(int valorTestado, int valor1, int valor2)
-{
-    if (valor1 > valor2)
-    {
-        return (valorTestado >= valor2 && valorTestado <= valor1);
-    } else {
-        return (valorTestado >= valor1 && valorTestado <= valor2);
-    }
+ostream& operator <<(ostream& os, Offset& dt) {
+    os << "(" << dt.getX() << ", " << dt.getY() << ")";
+    return os;
 }

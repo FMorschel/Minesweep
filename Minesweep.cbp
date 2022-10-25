@@ -34,12 +34,15 @@
 		</Compiler>
 		<Unit filename="Bomba.cpp" />
 		<Unit filename="Bomba.hpp" />
+		<Unit filename="Enums.hpp" />
 		<Unit filename="Lista.cpp" />
 		<Unit filename="Lista.hpp" />
 		<Unit filename="Offset.cpp" />
 		<Unit filename="Offset.hpp" />
 		<Unit filename="Tabuleiro.cpp" />
 		<Unit filename="Tabuleiro.hpp" />
+		<Unit filename="Tamanho.cpp" />
+		<Unit filename="Tamanho.hpp" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<lib_finder disable_auto="1" />

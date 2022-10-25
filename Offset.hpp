@@ -1,16 +1,23 @@
 #ifndef OFFSET_HPP_INCLUDED
 #define OFFSET_HPP_INCLUDED
 
+#include <iostream>
+#include <cstring>
+using namespace std;
+class Tamanho;
+template <typename T>
+class Lista;
+
 class Offset
 {
     public:
         Offset();
         Offset(int x, int y);
-        Offset(bool aleatorio);
         int getX();
         int getY();
-        bool estaDentro(Offset offset);
-        bool estaDentro(Offset offset, Offset referencia);
+        bool estaDentro(Tamanho tamanho);
+        int distancia(Offset offset);
+        Lista<Offset> envolta(int raio = 1);
         bool operator >(Offset offset);
         bool operator <(Offset offset);
         bool operator >=(Offset offset);
@@ -20,8 +27,8 @@ class Offset
     protected:
         int x;
         int y;
-    private:
-        bool entre(int valorTestado, int valor1, int valor2);
 };
+
+ostream& operator <<(ostream& os, Offset& dt);
 
 #endif // OFFSET_HPP_INCLUDED
